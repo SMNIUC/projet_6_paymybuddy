@@ -13,37 +13,49 @@
 
         <title>Pay My Buddy - Log In</title>
     </head>
+        <body>
+        <div id="login">
+            <div class="container">
+                <div id="login-row" class="row justify-content-center align-items-center">
+                    <div id="login-column" class="col-md-3">
+                        <div id="login-box" class="col-md-12">
+                            <form id="login-form" name="f" class="form" action="/login" method="POST">
+                                <div class="login-title">
+                                    <button type="button" class="button-37" role="button">Pay My Buddy</button>
+                                </div>
 
-    <body>
-        <div class="container">
-            <nav class="navbar navbar-expand-lg navbar-light">
-                <div class="container-fluid">
-                    <a class="navbar-brand" href="/paymybuddy/home">
-                        <button type="button" class="button-37" role="button">Pay My Buddy</button>
-                    </a>
-                    <div class="collapse navbar-collapse flex-row-reverse" id="navbarNavAltMarkup">
-                        <div class="navbar-nav">
-                            <a class="nav-link active text-primary" aria-current="page" href="#">Home</a>
-                            <a class="nav-link text-dark" href="/paymybuddy/transfer">Transfer</a>
-                            <a class="nav-link text-dark" href="/paymybuddy/profile">Profile</a>
-                            <a class="nav-link text-dark" href="/paymybuddy/contact">Contact</a>
-                            <a class="nav-link text-dark" href="/paymybuddy/logoff">Log Off</a>
+                                <!-- Email input -->
+                                <div class="form-floating mb-3 form-field">
+                                    <input type="email" name="username" class="form-control" id="floatingInput" placeholder="Email" />
+                                    <label for="floatingInput">Email</label>
+                                </div>
+
+                                <!-- Password input -->
+                                <div class="form-floating mb-3 form-field">
+                                    <input type="password" name="password" class="form-control" id="floatingPassword" placeholder="Password" />
+                                    <label for="floatingPassword">Password</label>
+                                </div>
+
+                                <!-- 2 column grid layout for inline styling -->
+                                <div class="form-group">
+                                    <div class="col d-flex justify-content-center">
+                                        <!-- Checkbox -->
+                                        <div class="checkbox">
+                                            <input class="form-check-input" type="checkbox" value="" id="remember-me" />
+                                            <label class="form-check-label" for="remember-me"> Remember me </label>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Submit button -->
+                                <div class="login-button">
+                                    <button type="submit" data-mdb-button-init data-mdb-ripple-init class="btn btn-primary btn-block mb-4">Login</button>
+                                </div>
+                            </form>
                         </div>
                     </div>
                 </div>
-            </nav>
-        </div>
-
-        <div class="container bg-light">
-            <nav aria-label="breadcrumb">
-                <ol class="breadcrumb">
-                    <li class="breadcrumb-item active" aria-current="page">Home</li>
-                </ol>
-            </nav>
-        </div>
-
-        <div class="container">
-            <h2>Pay my buddy test</h2>
+            </div>
         </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>

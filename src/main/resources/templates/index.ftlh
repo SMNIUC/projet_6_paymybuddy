@@ -18,16 +18,16 @@
         <div class="container">
             <nav class="navbar navbar-expand-lg navbar-light">
                 <div class="container-fluid">
-                    <a class="navbar-brand" href="/paymybuddy/home">
+                    <a class="navbar-brand" href="/home">
                         <button type="button" class="button-37" role="button">Pay My Buddy</button>
                     </a>
                     <div class="collapse navbar-collapse flex-row-reverse" id="navbarNavAltMarkup">
                         <div class="navbar-nav">
                             <a class="nav-link active text-primary" aria-current="page" href="#">Home</a>
-                            <a class="nav-link text-dark" href="/paymybuddy/transfer">Transfer</a>
-                            <a class="nav-link text-dark" href="/paymybuddy/profile">Profile</a>
-                            <a class="nav-link text-dark" href="/paymybuddy/contact">Contact</a>
-                            <a class="nav-link text-dark" href="/paymybuddy/logout">Log Out</a>
+                            <a class="nav-link text-dark" href="/transfer">Transfer</a>
+                            <a class="nav-link text-dark" href="/profile">Profile</a>
+                            <a class="nav-link text-dark" href="/contact">Contact</a>
+                            <a class="nav-link text-dark" href="/logout">Log Out</a>
                         </div>
                     </div>
                 </div>
@@ -43,7 +43,7 @@
         </div>
 
         <div class="container">
-            <h2>Welcome ${firstName}!</h2>
+            <h2>Welcome ${connectedUser.firstName}!</h2>
         </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>

@@ -15,8 +15,13 @@ public class Account
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int accountId;
 
+    @Column(name = "creation_date")
     private Date creationDate;
+
+    @Column(name = "balance")
     private int balance;
+
+    @Column(name = "iban")
     private String iban;
 
 
