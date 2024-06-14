@@ -18,11 +18,13 @@ public class Account
     @Column(name = "creation_date")
     private Date creationDate;
 
-    @Column(name = "balance")
-    private int balance;
+    @Column(name = "account_balance")
+    private double accountBalance;
 
     @Column(name = "iban")
     private String iban;
 
+    @Column(name = "bank_balance")
+    private double bankBalance;
 
 }

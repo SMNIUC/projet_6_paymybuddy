@@ -54,27 +54,38 @@
                 <#if successfulConnection?? >
                     <div class="alert alert-success" role="alert">New connection successfully added!</div>
                 </#if>
+                <#if transactionError?? >
+                    <div class="alert alert-danger" role="alert">The transaction could not be completed. Not enough funds available.</div>
+                </#if>
+                <#if successfulTransaction?? >
+                    <div class="alert alert-success" role="alert">Transaction successful!</div>
+                </#if>
+                <#if missingConnection?? >
+                <div class="alert alert-danger" role="alert">Please select a Connection in the drop-down menu.</div>
+                </#if>
                 <div class="d-flex justify-content-around">
                     <h5>Send Money</h5>
                     <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addConnectionModal">Add Connection</button>
                 </div>
                 <div class="container" id="transfer-container-2">
-                    <div class="d-flex justify-content-around" id="transfer-container-3">
-                        <div class="row">
-                            <select class="form-select" aria-label="Default select example">
-                                <option selected>Select A Connection</option>
-                                <option value="1">Friend 1</option>
-                                <option value="2">Friend 2</option>
-                                <option value="3">Friend 3</option>
-                            </select>
+                    <form method="POST" action="/sendMoney" id="connectionTransactionForm">
+                        <div class="d-flex justify-content-around" id="transfer-container-3">
+                            <div class="row">
+                                <select name="transactionConnectionEmail" id="transactionConnectionEmail" class="form-select" aria-label="Default select example">
+                                    <option selected>Select A Connection</option>
+                                    <#list connections_list as connection>
+                                        <option name="transactionConnectionEmail" value="${connection.email}">${connection.firstName} ${connection.lastName}</option>
+                                    </#list>
+                                </select>
+                            </div>
+                            <div class="row">
+                                <input name="transactionConnectionAmount" id="transactionConnectionAmount" type="number" value="0" min="0" max="5000" step="0.01"/>
+                            </div>
+                            <div class="row">
+                                 <button type="submit" class="btn btn-success button-37">Pay</button>
+                          </div>
                         </div>
-                        <div class="row">
-                            <input type="number" value="0" min="0" max="5000" step="1"/>
-                        </div>
-                        <div class="row">
-                             <button type="button" class="btn btn-success button-37">Pay</button>
-                      </div>
-                    </div>
+                    </form>
                 </div>
             </div>
         </div>
@@ -120,7 +131,7 @@
                         <h5 class="modal-title" id="addConnectionModal">Add A Connection</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                    <form method="POST" action="/transfer" id="connectionForm">
+                    <form method="POST" action="/addConnection" id="connectionForm">
                         <div class="modal-body">
                             <label for="connectionForm">Enter the email address to connect to:</label>
                             <input name="connectionEmail" type="email" class="form-control" id="connectionForm" placeholder="name@example.com">
@@ -135,13 +146,5 @@
         </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
-    <script type="module">
-        import {InputSpinner} from "./src/InputSpinner.js"
-
-        const inputSpinnerElements = document.querySelectorAll("input[type='number']")
-        for (const inputSpinnerElement of inputSpinnerElements) {
-            new InputSpinner(inputSpinnerElement)
-        }
-    </script>
     </body>
 </html>

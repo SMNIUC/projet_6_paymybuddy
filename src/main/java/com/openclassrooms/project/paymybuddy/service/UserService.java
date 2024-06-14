@@ -25,13 +25,4 @@ public class UserService
     {
         return ( List< User > ) userRepository.findAll();
     }
-
-
-//    public List<String> getAllUsersList( )
-//    {
-//        List<User> allUser = getAllUsers();
-//
-//        List<String> allUserEmails
-//        return
-//    }
 }

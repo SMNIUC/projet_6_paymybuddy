@@ -43,8 +43,43 @@
             </nav>
         </div>
 
-        <div class="container">
-            <h2>Profile page</h2>
+        <div class="container" id="transfer-container">
+            <div class="row">
+                <#if selectAnAction?? >
+                    <div class="alert alert-danger" role="alert">Please select an action in the drop-down menu 'I want to...'.</div>
+                </#if>
+                <#if balanceTooLow?? >
+                    <div class="alert alert-danger" role="alert">You do not have enough funds.</div>
+                </#if>
+                <#if bankRefusal?? >
+                    <div class="alert alert-danger" role="alert">The bank refused the transfer.</div>
+                </#if>
+                <#if successfulTransfer?? >
+                    <div class="alert alert-success" role="alert">Transfer successful!</div>
+                </#if>
+                <div class="d-flex justify-content-around">
+                    <h5>Bank <> Account Transfers</h5>
+                </div>
+                <div class="container" id="transfer-container-2">
+                    <form method="POST" action="/profile" id="bankTransferForm">
+                        <div class="d-flex justify-content-around" id="transfer-container-3">
+                            <div class="row">
+                                <select name="bankTransferAction" id="bankTransferAction" class="form-select" aria-label="Default select example">
+                                    <option selected>I want to...</option>
+                                    <option value="bankToAccount">Transfer money from my bank to my account</option>
+                                    <option value="accountToBank">Transfer money from my account to my bank</option>
+                                </select>
+                            </div>
+                            <div class="row">
+                                <input name="bankTransferAmount" id="bankTransferAmount" type="number" data-suffix="€" value="0" min="0" max="5000" step="0.01"/>
+                            </div>
+                            <div class="row">
+                                <button type="submit" class="btn btn-success button-37">Transfer</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
         </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
