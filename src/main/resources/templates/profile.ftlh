@@ -72,7 +72,7 @@
                     </#if>
                 </div>
                 <div class="d-flex justify-content-around">
-                    <h5>Bank <> Pay My Buddy Transfers</h5>
+                    <h4>Bank <> Pay My Buddy Transfers</h4>
                 </div>
                 <#if user.account.iban?? && user.account.iban?has_content>
                     <div class="container mb-0" id="iban-container">
@@ -83,6 +83,12 @@
                             <div class="row">
                                 <p>Your Pay My Buddy account balance:&nbsp;&nbsp;<span class="bg-white p-2 account-balance">${user.account.accountBalance} €</span></p>
                             </div>
+                        </div>
+                    </div>
+                <#else>
+                    <div class="d-flex justify-content-around">
+                        <div class="alert alert-warning" id="iban-alert" role="alert">
+                            <h6>Register your iban below to have access to your account balance:</h6>
                         </div>
                     </div>
                 </#if>

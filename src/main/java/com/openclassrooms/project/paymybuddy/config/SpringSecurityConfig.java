@@ -1,7 +1,7 @@
 package com.openclassrooms.project.paymybuddy.config;
 
 import com.openclassrooms.project.paymybuddy.repo.UserRepository;
-import com.openclassrooms.project.paymybuddy.service.UserDetailsServiceImpl;
+import com.openclassrooms.project.paymybuddy.service.UserDetailsService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -9,20 +9,20 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.annotation.web.configurers.LogoutConfigurer;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.rememberme.InMemoryTokenRepositoryImpl;
+import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
 
 @Configuration
 @EnableWebSecurity
 public class SpringSecurityConfig
 {
-
     // FilterChain for the AUTHN portion
     // Used to match the different credentials going thru the filterChain
     @Bean
     public UserDetailsService userDetailsService( UserRepository userRepository ) {
-        return new UserDetailsServiceImpl( userRepository );
+        return new UserDetailsService( userRepository );
     }
 
     @Bean
@@ -39,13 +39,18 @@ public class SpringSecurityConfig
         return authProvider;
     }
 
+    @Bean
+    public PersistentTokenRepository persistentTokenRepository( ) {
+        return new InMemoryTokenRepositoryImpl( );
+    }
+
     // FilterChain for the AUTHZ portion
     // method to push all HTTP requests through the security filter chain and configure the default login page
     @Bean
-    public SecurityFilterChain filterChain( HttpSecurity http ) throws Exception
+    public SecurityFilterChain filterChain( HttpSecurity http, UserRepository userRepository ) throws Exception
     {
         http
-                .csrf(AbstractHttpConfigurer::disable)
+                .csrf( AbstractHttpConfigurer::disable )
                 .authorizeHttpRequests( authorizeHttpRequests -> //means the requests are going to be authorized thru the following filters/Matchers
                         authorizeHttpRequests
                                 .requestMatchers( "/registration" ).permitAll( )
@@ -53,11 +58,16 @@ public class SpringSecurityConfig
                 )
                 .formLogin(formLogin -> formLogin
                         .loginPage( "/login" ) // only page(s) available without being logged in
-//                        .loginProcessingUrl("/login")
                         .failureUrl("/login?error=true")
                         .defaultSuccessUrl( "/home", true )
                         .permitAll( ) )
-                .logout( LogoutConfigurer::permitAll );
+                .logout( LogoutConfigurer::permitAll )
+                .rememberMe( rememberMe -> rememberMe
+                        .tokenRepository( persistentTokenRepository( ) )
+                        .tokenValiditySeconds( 86400 ) // 24 hours
+                        .key( "mySecretKey" ) )
+                        .userDetailsService( userDetailsService( userRepository ) )
+                ;
 
         return http.build( );
     }

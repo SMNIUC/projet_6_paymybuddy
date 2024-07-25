@@ -6,12 +6,11 @@ import com.openclassrooms.project.paymybuddy.model.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class UserDetailsServiceImpl implements UserDetailsService
+public class UserDetailsService implements org.springframework.security.core.userdetails.UserDetailsService
 {
     private final UserRepository userRepository;
 

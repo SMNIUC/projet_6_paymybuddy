@@ -13,7 +13,6 @@ public class User
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int userId;
 
-    //TODO -> What's the use of Acct instead of int?
     @OneToOne
     @JoinColumn(name = "account_id", referencedColumnName = "account_id")
     private Account account;

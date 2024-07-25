@@ -49,32 +49,23 @@
                     <div class="d-flex justify-content-start" id="transaction-title">
                         <h5>My Information</h5>
                     </div>
-                    <table class="table table-striped text-center align-middle">
-                        <thead class="transaction-table-header">
-                        <tr>
-                            <th scope="col">Connections</th>
-                            <th scope="col">Description</th>
-                            <th scope="col">Amount</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr>
-                            <td>${connectedUser.email}</td>
-                            <td>Tik</td>
-                            <td>3e</td>
-                        </tr>
-                        <tr>
-                            <td>Friend 2</td>
-                            <td>Tax</td>
-                            <td>10e</td>
-                        </tr>
-                        <tr>
-                            <td>Friend 3</td>
-                            <td>Toe</td>
-                            <td>50e</td>
-                        </tr>
-                        </tbody>
-                    </table>
+                    <form>
+                        <div class="mb-3">
+                            <label for="accountId" class="form-label">Account ID</label>
+                            <input type="email" class="form-control" id="accountId" aria-describedby="emailHelp" disabled="disabled" value="${connectedUser.account.accountId}">
+                        </div>
+                        <div class="mb-3">
+                            <label for="userEmail" class="form-label">Email address</label>
+                            <input type="email" class="form-control" id="userEmail" aria-describedby="emailHelp" value="${connectedUser.email}">
+                            <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="userPassword" class="form-label">Password</label>
+                            <input type="password" class="form-control" id="userPassword">
+                            <div id="emailHelp" class="form-text">Update your password here.</div>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </form>
                 </div>
             </div>
         </div>

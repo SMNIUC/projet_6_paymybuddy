@@ -31,6 +31,7 @@ public class TransferController
 
         model.addAttribute( "connections_list", transferService.getConnectionsUserList( connectedUser ) );
         model.addAttribute( "transactions_list", transferService.getTransferList( connectedUser ) );
+        model.addAttribute( "user", connectedUser );
 
         //returns the name of the html page of home
         return "transfer";

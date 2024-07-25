@@ -45,24 +45,33 @@
 
         <div class="container" id="transfer-container">
             <div class="row">
-                <#if invalidUser?? >
-                    <div class="alert alert-danger" role="alert">This user email does not exist.</div>
-                </#if>
-                <#if existingUser?? >
-                    <div class="alert alert-danger" role="alert">This user is already a connection.</div>
-                </#if>
-                <#if successfulConnection?? >
-                    <div class="alert alert-success" role="alert">New connection successfully added!</div>
-                </#if>
-                <#if transactionError?? >
-                    <div class="alert alert-danger" role="alert">The transaction could not be completed. Not enough funds available.</div>
-                </#if>
-                <#if successfulTransaction?? >
-                    <div class="alert alert-success" role="alert">Transaction successful!</div>
-                </#if>
-                <#if missingConnection?? >
-                    <div class="alert alert-danger" role="alert">Please select a Connection in the drop-down menu.</div>
-                </#if>
+                <div class="md-3 d-flex justify-content-center">
+                    <#if invalidUser?? >
+                        <div class="alert alert-danger" role="alert">This user email does not exist.</div>
+                    </#if>
+                    <#if existingUser?? >
+                        <div class="alert alert-danger" role="alert">This user is already a connection.</div>
+                    </#if>
+                    <#if successfulConnection?? >
+                        <div class="alert alert-success" role="alert">New connection successfully added!</div>
+                    </#if>
+                    <#if transactionError?? >
+                        <div class="alert alert-danger" role="alert">The transaction could not be completed. Not enough funds available.</div>
+                    </#if>
+                    <#if successfulTransaction?? >
+                        <div class="alert alert-success" role="alert">Transaction successful!</div>
+                    </#if>
+                    <#if missingConnection?? >
+                        <div class="alert alert-danger" role="alert">Please select a Connection in the drop-down menu.</div>
+                    </#if>
+                </div>
+                <div class="container mb-0">
+                    <div class="d-flex justify-content-around account-balance" id="iban-container-2">
+                        <div class="row">
+                            <p>Your Pay My Buddy account balance:&nbsp;&nbsp;<span class="p-2 account-balance" id="pmb-balance">${user.account.accountBalance} €</span></p>
+                        </div>
+                    </div>
+                </div>
                 <div class="d-flex justify-content-around">
                     <h5>Send Money</h5>
                     <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addConnectionModal">Add Connection</button>
@@ -95,7 +104,7 @@
                 <div class="d-flex justify-content-start" id="transaction-title">
                     <h5>My Transactions</h5>
                 </div>
-                <table class="table table-striped text-center align-middle">
+                <table class="table table-striped text-center align-middle transaction-table">
                     <thead class="transaction-table-header">
                         <tr>
                             <th scope="col">Connections</th>
@@ -114,7 +123,27 @@
                     </tbody>
                 </table>
             </div>
+            <nav aria-label="Page navigation">
+                <ul class="pagination">
+                    <li class="page-item">
+                        <a class="page-link" href="#" aria-label="Previous">
+                            <span aria-hidden="true">&laquo;</span>
+                        </a>
+                    </li>
+                    <li class="page-item"><a class="page-link" href="#">1</a></li>
+                    <li class="page-item"><a class="page-link" href="#">2</a></li>
+                    <li class="page-item"><a class="page-link" href="#">3</a></li>
+                    <li class="page-item"><a class="page-link" href="#">4</a></li>
+                    <li class="page-item"><a class="page-link" href="#">5</a></li>
+                    <li class="page-item">
+                        <a class="page-link" href="#" aria-label="Next">
+                            <span aria-hidden="true">&raquo;</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
         </div>
+
 
         <div class="modal fade" id="addConnectionModal" data-bs-backdrop="static" tabindex="-1" aria-labelledby="addConnectionModal" aria-hidden="true">
             <div class="modal-dialog">

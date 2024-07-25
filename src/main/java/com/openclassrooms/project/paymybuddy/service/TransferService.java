@@ -78,11 +78,18 @@ public class TransferService
     public List<User> getConnectionsUserList( User connectedUser )
     {
         List<User> connectionsUserList = new ArrayList<>( );
-        List<Connection> existingConnectionsList = connectionRepository.getAllAddedUserByConnectedUser( connectedUser );
+        List<Connection> existingConnectionsList = connectionRepository.getAllByConnectedUserOrAddedUser( connectedUser, connectedUser );
 
         for( Connection connection : existingConnectionsList )
         {
-            connectionsUserList.add( connection.getAddedUser( ) );
+            if( connection.getConnectedUser( ) == connectedUser )
+            {
+                connectionsUserList.add( connection.getAddedUser( ) );
+            }
+            if( connection.getAddedUser( ) == connectedUser )
+            {
+                connectionsUserList.add( connection.getConnectedUser( ) );
+            }
         }
 
         return connectionsUserList;
