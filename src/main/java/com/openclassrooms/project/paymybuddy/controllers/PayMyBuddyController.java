@@ -42,7 +42,6 @@ public class PayMyBuddyController
         return "index";
     }
 
-    //TODO -> error/conf messages not working, review
     @PostMapping("/registration")
     public String createNewAccount( @RequestParam String username, @RequestParam String password, Model model )
     {

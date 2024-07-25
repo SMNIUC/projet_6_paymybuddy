@@ -18,19 +18,12 @@ import static com.openclassrooms.project.paymybuddy.utils.PayMyBuddyConstants.*;
 public class UserService
 {
     private final UserRepository userRepository;
-
     private final AccountService accountService;
-    private final ConnectionRepository connectionRepository;
     private final BCryptPasswordEncoder passwordEncoder;
 
     public User findByEmail( String email )
     {
         return userRepository.findByEmail( email );
-    }
-
-    public List<User> getAllUsers()
-    {
-        return ( List< User > ) userRepository.findAll( );
     }
 
     @Transactional
@@ -54,8 +47,6 @@ public class UserService
         else
         {
             message = EXISTING_EMAIL_ERROR;
-            //TODO -> exception
-            //throw new Exception(  );
         }
 
         return message;

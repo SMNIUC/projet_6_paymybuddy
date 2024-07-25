@@ -18,7 +18,6 @@ public class AccountService
 {
     private final AccountRepository accountRepository;
 
-
     @Transactional
     public Account createNewAccount( )
     {

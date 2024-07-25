@@ -28,6 +28,7 @@ public class TransferService
     private final TransferRepository transferRepository;
 
 
+    @Transactional
     public String addConnection( User connectedUser, User addedUser )
     {
         Connection connection = new Connection( );
@@ -95,12 +96,14 @@ public class TransferService
         return connectionsUserList;
     }
 
+
     public List<Transfer> getTransferList( User connectedUser )
     {
         return transferRepository.getAllByTransferRecipient( connectedUser );
     }
 
-    private void saveNewTransfer( User connectedUser, User connectionUser, double transactionAmount )
+    @Transactional
+    protected void saveNewTransfer( User connectedUser, User connectionUser, double transactionAmount )
     {
         Transfer newTransfer = new Transfer( );
 
@@ -111,6 +114,7 @@ public class TransferService
 
         transferRepository.save( newTransfer );
     }
+
 
     @Transactional
     public String sendMoneyToConnection( User connectedUser, User connectionUser, double transactionAmount )
@@ -144,8 +148,6 @@ public class TransferService
         else
         {
             message = TRANSACTION_ERROR;
-            //TODO -> exception
-            //throw new Exception(  );
         }
 
         return message;
