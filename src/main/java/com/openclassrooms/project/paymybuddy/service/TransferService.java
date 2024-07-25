@@ -117,31 +117,31 @@ public class TransferService
 
 
     @Transactional
-    public String sendMoneyToConnection( User connectedUser, User connectionUser, double transactionAmount )
+    public String sendMoneyToConnection( User sender, User recipient, double transactionAmount )
     {
 
-        double connectedUserAccountBalance = connectedUser.getAccount( ).getAccountBalance( );
-        double connectionUserAccountBalance = connectionUser.getAccount( ).getAccountBalance( );
+        double senderAccountBalance = sender.getAccount( ).getAccountBalance( );
+        double recipientAccountBalance = recipient.getAccount( ).getAccountBalance( );
         double transactionFee = transactionAmount * 0.005;
         String message;
 
-        // if connected user has sufficient balance, sends the money to their connection, including the 0.5% fee (fee's at sender's charge)
-        if( connectedUserAccountBalance >= transactionAmount )
+        // if sender has sufficient balance, sends the money to their connection/recipient, including the 0.5% fee (fee's at sender's charge)
+        if( senderAccountBalance >= transactionAmount )
         {
-            // Taking the transferred amount + the transaction fee from the connected user account and putting transferred amount into the connection's account
-            connectedUserAccountBalance -= ( transactionAmount - transactionFee );
-            connectionUserAccountBalance += transactionAmount;
+            // Taking the transferred amount + the transaction fee from the sender's account and putting transferred amount into the recipient's account
+            senderAccountBalance -= ( transactionAmount + transactionFee );
+            recipientAccountBalance += transactionAmount;
 
             // Register the new transfer in database
-            saveNewTransfer( connectedUser, connectionUser, transactionAmount );
+            saveNewTransfer( sender, recipient, transactionAmount );
 
             // Setting the new balance in each account
-            connectedUser.getAccount( ).setAccountBalance( connectedUserAccountBalance );
-            connectionUser.getAccount( ).setAccountBalance( connectionUserAccountBalance );
+            sender.getAccount( ).setAccountBalance( senderAccountBalance );
+            recipient.getAccount( ).setAccountBalance( recipientAccountBalance );
 
             // Saving the updated accounts into persistence
-            accountRepository.save( connectedUser.getAccount( ) );
-            accountRepository.save( connectionUser.getAccount( ) );
+            accountRepository.save( sender.getAccount( ) );
+            accountRepository.save( recipient.getAccount( ) );
 
             message = SUCCESSFUL_TRANSACTION;
         }
