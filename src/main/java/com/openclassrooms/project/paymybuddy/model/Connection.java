@@ -20,4 +20,5 @@ public class Connection
     @OneToOne
     @JoinColumn(name = "fk_user_id_2", referencedColumnName = "user_id")
     private User addedUser;
+
 }

@@ -48,12 +48,13 @@ public class SpringSecurityConfig
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests( authorizeHttpRequests -> //means the requests are going to be authorized thru the following filters/Matchers
                         authorizeHttpRequests
+                                .requestMatchers( "/registration" ).permitAll( )
                                 .anyRequest( ).authenticated( ) //so the form below will be used for authentication + ensures that all requests that are not authenticated get a 401 Error
                 )
                 .formLogin(formLogin -> formLogin
-                        .loginPage( "/login" )
+                        .loginPage( "/login" ) // only page(s) available without being logged in
 //                        .loginProcessingUrl("/login")
-//                        .failureUrl("/login?error=true")
+                        .failureUrl("/login?error=true")
                         .defaultSuccessUrl( "/home", true )
                         .permitAll( ) )
                 .logout( LogoutConfigurer::permitAll );

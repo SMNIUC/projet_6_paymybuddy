@@ -45,29 +45,67 @@
 
         <div class="container" id="transfer-container">
             <div class="row">
-                <#if selectAnAction?? >
-                    <div class="alert alert-danger" role="alert">Please select an action in the drop-down menu 'I want to...'.</div>
-                </#if>
-                <#if balanceTooLow?? >
-                    <div class="alert alert-danger" role="alert">You do not have enough funds.</div>
-                </#if>
-                <#if bankRefusal?? >
-                    <div class="alert alert-danger" role="alert">The bank refused the transfer.</div>
-                </#if>
-                <#if successfulTransfer?? >
-                    <div class="alert alert-success" role="alert">Transfer successful!</div>
-                </#if>
                 <div class="d-flex justify-content-around">
-                    <h5>Bank <> Account Transfers</h5>
+                    <#if selectAnAction?? >
+                        <div class="alert alert-danger" role="alert">Please select an action in the drop-down menu 'I want to...'.</div>
+                    </#if>
+                    <#if balanceTooLow?? >
+                        <div class="alert alert-danger" role="alert">You do not have enough funds.</div>
+                    </#if>
+                    <#if bankRefusal?? >
+                        <div class="alert alert-danger" role="alert">The bank refused the transfer.</div>
+                    </#if>
+                    <#if successfulTransfer?? >
+                        <div class="alert alert-success" role="alert">Transfer successful!</div>
+                    </#if>
+                    <#if ibanSuccess?? >
+                        <div class="alert alert-success" role="alert">Iban successfully register/updated.</div>
+                    </#if>
+                    <#if ibanError?? >
+                        <div class="alert alert-danger" role="alert">Error registering/updating iban.</div>
+                    </#if>
+                    <#if nullIbanError?? >
+                        <div class="alert alert-danger" role="alert">Iban cannot be blank.</div>
+                    </#if>
+                    <#if nullIbanTransferError?? >
+                        <div class="alert alert-danger" role="alert">Register an iban before doing a transfer.</div>
+                    </#if>
+                </div>
+                <div class="d-flex justify-content-around">
+                    <h5>Bank <> Pay My Buddy Transfers</h5>
+                </div>
+                <#if user.account.iban?? && user.account.iban?has_content>
+                    <div class="container mb-0" id="iban-container">
+                        <div class="d-flex justify-content-around account-balance" id="iban-container-2">
+                            <div class="row">
+                                <p>Your Bank account balance:&nbsp;&nbsp;<span class="bg-white p-2 account-balance">${user.account.bankBalance} €</span></p>
+                            </div>
+                            <div class="row">
+                                <p>Your Pay My Buddy account balance:&nbsp;&nbsp;<span class="bg-white p-2 account-balance">${user.account.accountBalance} €</span></p>
+                            </div>
+                        </div>
+                    </div>
+                </#if>
+                <div class="container" id="iban-container">
+                    <form method="POST" action="/ibanRegistration" id="ibanRegistrationForm">
+                        <div class="d-flex justify-content-around" id="iban-container-2">
+                            <div class="row" id="iban-input-field">
+                                <input type="text" name="iban" class="form-control" id="iban" placeholder="Your iban here" value="${user.account.iban!}" />
+                            </div>
+                            <div class="row">
+                                <button type="submit" class="btn btn-success button-37">Register/Update my iban</button>
+                            </div>
+                        </div>
+                    </form>
                 </div>
                 <div class="container" id="transfer-container-2">
-                    <form method="POST" action="/profile" id="bankTransferForm">
+                    <form method="POST" action="/bankAccountTransfer" id="bankTransferForm">
                         <div class="d-flex justify-content-around" id="transfer-container-3">
                             <div class="row">
                                 <select name="bankTransferAction" id="bankTransferAction" class="form-select" aria-label="Default select example">
                                     <option selected>I want to...</option>
-                                    <option value="bankToAccount">Transfer money from my bank to my account</option>
-                                    <option value="accountToBank">Transfer money from my account to my bank</option>
+                                    <option value="bankToAccount">Transfer money from my Bank to Pay My Buddy</option>
+                                    <option value="accountToBank">Transfer money from Pay My Buddy to my Bank</option>
                                 </select>
                             </div>
                             <div class="row">

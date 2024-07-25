@@ -29,7 +29,7 @@
 }
 
 #login .container #login-row #login-column #login-box {
-    margin-top: 100px;
+    margin-top: 50px;
     height: 410px;
     border: 1px solid #d2caca;
     border-radius: 5px;
@@ -71,6 +71,22 @@
     box-shadow: 0 0 0 0.1rem black !important;
 }
 
+#iban-input-field {
+    width: 400px;
+}
+
+#iban-container {
+    background-color: #F5F5F5;
+    max-width: 800px;
+    height: 100px;
+    margin-top: 30px;
+    margin-bottom: 50px;
+}
+
+#iban-container-2 {
+    margin-top: 30px;
+}
+
 #transfer-container {
     margin-top: 40px;
 }
@@ -103,9 +119,15 @@
     vertical-align: middle;
 }
 
+.account-balance {
+    font-weight :bold;
+    border-radius: 15px;
+    margin-bottom: 20px;
+}
+
 tr {
     width: 100%;
-    height:60px;
+    height: 60px;
 }
 
 </style>

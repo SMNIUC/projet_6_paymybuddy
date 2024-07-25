@@ -43,7 +43,12 @@
         </div>
 
         <div class="container">
-            <h2>Welcome ${connectedUser.firstName}!</h2>
+            <br>
+            <h2 class="d-flex justify-content-center">Welcome!</h2>
+            <br>
+            <#if !connectedUser.account.iban??>
+                <h5 class="d-flex justify-content-center">Please do not forget to enter your iban&nbsp;<a class="text-dark" href="/profile">here</a>&nbsp;so you can start using the app.</h5>
+            </#if>
         </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>

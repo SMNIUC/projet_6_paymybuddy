@@ -61,7 +61,7 @@
                     <div class="alert alert-success" role="alert">Transaction successful!</div>
                 </#if>
                 <#if missingConnection?? >
-                <div class="alert alert-danger" role="alert">Please select a Connection in the drop-down menu.</div>
+                    <div class="alert alert-danger" role="alert">Please select a Connection in the drop-down menu.</div>
                 </#if>
                 <div class="d-flex justify-content-around">
                     <h5>Send Money</h5>
@@ -74,7 +74,7 @@
                                 <select name="transactionConnectionEmail" id="transactionConnectionEmail" class="form-select" aria-label="Default select example">
                                     <option selected>Select A Connection</option>
                                     <#list connections_list as connection>
-                                        <option name="transactionConnectionEmail" value="${connection.email}">${connection.firstName} ${connection.lastName}</option>
+                                        <option name="transactionConnectionEmail" value="${connection.email}">${connection.email}</option>
                                     </#list>
                                 </select>
                             </div>
@@ -97,28 +97,20 @@
                 </div>
                 <table class="table table-striped text-center align-middle">
                     <thead class="transaction-table-header">
-                    <tr>
-                        <th scope="col">Connections</th>
-                        <th scope="col">Description</th>
-                        <th scope="col">Amount</th>
-                    </tr>
+                        <tr>
+                            <th scope="col">Connections</th>
+                            <th scope="col">Date</th>
+                            <th scope="col">Amount</th>
+                        </tr>
                     </thead>
                     <tbody>
-                    <tr>
-                        <td>Friend 1</td>
-                        <td>Tik</td>
-                        <td>3e</td>
-                    </tr>
-                    <tr>
-                        <td>Friend 2</td>
-                        <td>Tax</td>
-                        <td>10e</td>
-                    </tr>
-                    <tr>
-                        <td>Friend 3</td>
-                        <td>Toe</td>
-                        <td>50e</td>
-                    </tr>
+                        <#list transactions_list as transaction>
+                            <tr>
+                                <td>${transaction.transferSender.email}</td>
+                                <td>${transaction.transferDate?date}</td>
+                                <td>${transaction.transferAmount}&nbsp;€</td>
+                            </tr>
+                        </#list>
                     </tbody>
                 </table>
             </div>

@@ -16,21 +16,17 @@ public class Transfer
     private int transferId;
 
     @Column(name = "amount")
-    private int transferAmount;
+    private double transferAmount;
 
     @Column(name = "transfer_date")
     private Date transferDate;
 
-    @Column(name = "sender_account_id")
-    private int senderAccountId;
+    @OneToOne
+    @JoinColumn(name = "sender_account_id", referencedColumnName = "account_id")
+    private User transferSender;
 
-    @Column(name = "recipient_account_id")
-    private int recipientAccountId;
+    @OneToOne
+    @JoinColumn(name = "recipient_account_id", referencedColumnName = "account_id")
+    private User transferRecipient;
 
-    private int transcationCost;
-
-    private int calculateTransactionCost()
-    {
-        return transcationCost;
-    }
 }

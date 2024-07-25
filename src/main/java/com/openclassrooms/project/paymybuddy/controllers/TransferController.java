@@ -23,12 +23,14 @@ public class TransferController
 
     private final TransferService transferService;
 
+
     @GetMapping("/transfer")
     public String loadTransferPage( Principal principal, Model model )
     {
         User connectedUser = userService.findByEmail( principal.getName( ) );
 
         model.addAttribute( "connections_list", transferService.getConnectionsUserList( connectedUser ) );
+        model.addAttribute( "transactions_list", transferService.getTransferList( connectedUser ) );
 
         //returns the name of the html page of home
         return "transfer";
@@ -68,7 +70,7 @@ public class TransferController
 
 
     @PostMapping("/sendMoney")
-    public String sendMoneyToConnection( @RequestParam(name = "transactionConnectionEmail") String transactionConnectionEmail, @RequestParam(name = "transactionConnectionAmount") double transactionAmount, Principal principal, Model model )
+    public String sendMoneyToConnection( @RequestParam String transactionConnectionEmail, @RequestParam(name = "transactionConnectionAmount") double transactionAmount, Principal principal, Model model )
     {
         User connectedUser = userService.findByEmail( principal.getName( ) );
         User connectionUser = userService.findByEmail( transactionConnectionEmail );

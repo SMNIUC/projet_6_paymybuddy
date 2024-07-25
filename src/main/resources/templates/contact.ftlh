@@ -44,7 +44,39 @@
         </div>
 
         <div class="container">
-            <h2>Contact page</h2>
+            <div class="container" id="transaction-container">
+                <div class="row">
+                    <div class="d-flex justify-content-start" id="transaction-title">
+                        <h5>My Information</h5>
+                    </div>
+                    <table class="table table-striped text-center align-middle">
+                        <thead class="transaction-table-header">
+                        <tr>
+                            <th scope="col">Connections</th>
+                            <th scope="col">Description</th>
+                            <th scope="col">Amount</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td>${connectedUser.email}</td>
+                            <td>Tik</td>
+                            <td>3e</td>
+                        </tr>
+                        <tr>
+                            <td>Friend 2</td>
+                            <td>Tax</td>
+                            <td>10e</td>
+                        </tr>
+                        <tr>
+                            <td>Friend 3</td>
+                            <td>Toe</td>
+                            <td>50e</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>

@@ -12,43 +12,51 @@ public class MyUserDetails implements UserDetails
 {
     private User user;
 
-    public MyUserDetails(User user) {
+    public MyUserDetails( User user )
+    {
         this.user = user;
     }
 
     @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        SimpleGrantedAuthority authority = new SimpleGrantedAuthority(user.getRole());
-        return List.of(authority);
+    public Collection<? extends GrantedAuthority> getAuthorities( )
+    {
+        SimpleGrantedAuthority authority = new SimpleGrantedAuthority( user.getRole( ) );
+        return List.of( authority );
     }
 
     @Override
-    public String getPassword() {
-        return user.getPassword();
+    public String getPassword( )
+    {
+        return user.getPassword( );
     }
 
     @Override
-    public String getUsername() {
-        return user.getEmail();
+    public String getUsername( )
+    {
+        return user.getEmail( );
     }
 
     @Override
-    public boolean isAccountNonExpired() {
+    public boolean isAccountNonExpired( )
+    {
         return true;
     }
 
     @Override
-    public boolean isAccountNonLocked() {
+    public boolean isAccountNonLocked( )
+    {
         return true;
     }
 
     @Override
-    public boolean isCredentialsNonExpired() {
+    public boolean isCredentialsNonExpired( )
+    {
         return true;
     }
 
     @Override
-    public boolean isEnabled() {
+    public boolean isEnabled( )
+    {
         return true;
     }
 }
