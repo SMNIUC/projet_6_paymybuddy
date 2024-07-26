@@ -21,7 +21,6 @@ import org.springframework.web.context.WebApplicationContext;
 import java.security.Principal;
 import java.util.ArrayList;
 
-import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
@@ -48,12 +47,36 @@ public class TransferControllerTest
     @InjectMocks
     private TransferController transferControllerUnderTest;
 
+    private Principal principal;
+    private User connectedUser;
+    private Account connectedAccount;
+    private User addedUser;
+
     @BeforeEach
     public void setup( )
     {
         this.mockMvc = MockMvcBuilders.webAppContextSetup( this.context )
                 .apply( springSecurity( ) )
                 .build( );
+
+        principal = ( ) -> "user"; // Mock Principal object
+
+        connectedUser = new User( );
+        connectedAccount = new Account( );
+        connectedUser.setAccount( connectedAccount );
+        connectedUser.setEmail( "user" );
+
+        addedUser = new User( );
+        Account addedAccount = new Account( );
+        addedUser.setAccount( addedAccount );
+        addedUser.setEmail( "addedUser" );
+
+        when( userService.findByEmail( "user" ) ).thenReturn( connectedUser );
+    }
+
+    private void setupMockForConnection( User user )
+    {
+        when( userService.findByEmail( user.getEmail( ) ) ).thenReturn( user );
     }
 
     @Test
@@ -61,13 +84,7 @@ public class TransferControllerTest
     void doLoadTransferPageSuccessful( ) throws Exception
     {
         // Arrange
-        Principal principal = ( ) -> "user"; // Mock Principal object
-        User connectedUser = new User( );
-        Account account = new Account( );
-        connectedUser.setAccount( account );
-        connectedUser.setEmail( "user" );
-
-        when( userService.findByEmail( anyString( ) ) ).thenReturn( connectedUser );
+        setupMockForConnection( connectedUser );
         when( transferService.getConnectionsUserList( connectedUser ) ).thenReturn( new ArrayList<>( ) );
         when( transferService.getTransferList( connectedUser ) ).thenReturn( new ArrayList<>( ) );
 
@@ -89,19 +106,7 @@ public class TransferControllerTest
     void doAddConnectionSuccessful( ) throws Exception
     {
         // Arrange
-        Principal principal = ( ) -> "user"; // Mock Principal object
-        User connectedUser = new User( );
-        Account account = new Account( );
-        connectedUser.setAccount( account );
-        connectedUser.setEmail( "user" );
-        when( userService.findByEmail( "user" ) ).thenReturn( connectedUser );
-
-        User addedUser = new User( );
-        Account addedAccount = new Account( );
-        addedUser.setAccount( addedAccount );
-        addedUser.setEmail( "addedUser" );
-        when( userService.findByEmail( "addedUser" ) ).thenReturn( addedUser );
-
+        setupMockForConnection( addedUser );
         when( transferService.addConnection( connectedUser, addedUser ) ).thenReturn( "successfulConnection" );
 
         // Act & Assert
@@ -119,19 +124,7 @@ public class TransferControllerTest
     void errorAddingConnectionUnknownUser( ) throws Exception
     {
         // Arrange
-        Principal principal = ( ) -> "user"; // Mock Principal object
-        User connectedUser = new User( );
-        Account account = new Account( );
-        connectedUser.setAccount( account );
-        connectedUser.setEmail( "user" );
-        when( userService.findByEmail( "user" ) ).thenReturn( connectedUser );
-
-        User addedUser = new User( );
-        Account addedAccount = new Account( );
-        addedUser.setAccount( addedAccount );
-        addedUser.setEmail( "addedUser" );
         when( userService.findByEmail( "addedUser" ) ).thenReturn( null );
-
         when( transferService.addConnection( connectedUser, addedUser ) ).thenReturn( "invalidUser" );
 
         // Act & Assert
@@ -149,19 +142,7 @@ public class TransferControllerTest
     void errorAddingConnectionTransactionError( ) throws Exception
     {
         // Arrange
-        Principal principal = ( ) -> "user"; // Mock Principal object
-        User connectedUser = new User( );
-        Account account = new Account( );
-        connectedUser.setAccount( account );
-        connectedUser.setEmail( "user" );
-        when( userService.findByEmail( "user" ) ).thenReturn( connectedUser );
-
-        User addedUser = new User( );
-        Account addedAccount = new Account( );
-        addedUser.setAccount( addedAccount );
-        addedUser.setEmail( "addedUser" );
-        when( userService.findByEmail( "addedUser" ) ).thenReturn( addedUser );
-
+        setupMockForConnection( addedUser );
         when( transferService.addConnection( connectedUser, addedUser ) ).thenReturn( "transactionError" );
 
         // Act & Assert
@@ -179,19 +160,7 @@ public class TransferControllerTest
     void errorAddingConnectionExistingUser( ) throws Exception
     {
         // Arrange
-        Principal principal = ( ) -> "user"; // Mock Principal object
-        User connectedUser = new User( );
-        Account account = new Account( );
-        connectedUser.setAccount( account );
-        connectedUser.setEmail( "user" );
-        when( userService.findByEmail( "user" ) ).thenReturn( connectedUser );
-
-        User addedUser = new User( );
-        Account addedAccount = new Account( );
-        addedUser.setAccount( addedAccount );
-        addedUser.setEmail( "addedUser" );
-        when( userService.findByEmail( "addedUser" ) ).thenReturn( addedUser );
-
+        setupMockForConnection( addedUser );
         when( transferService.addConnection( connectedUser, addedUser ) ).thenReturn( "existingUser" );
 
         // Act & Assert
@@ -209,18 +178,11 @@ public class TransferControllerTest
     void doSendMoneyToConnectionSuccessful( ) throws Exception
     {
         // Arrange
-        Principal principal = ( ) -> "user"; // Mock Principal object
-        User connectedUser = new User( );
-        Account account = new Account( );
-        connectedUser.setAccount( account );
-        connectedUser.setEmail( "user" );
-        when( userService.findByEmail( "user" ) ).thenReturn( connectedUser );
-
         User connectionUser = new User( );
         Account connectionAccount = new Account( );
         connectionUser.setAccount( connectionAccount );
         connectionUser.setEmail( "connectionUser" );
-        when( userService.findByEmail( "connectionUser" ) ).thenReturn( connectionUser );
+        setupMockForConnection( connectionUser );
 
         double transactionAmount = 200;
         when( transferService.sendMoneyToConnection( connectedUser, connectionUser, transactionAmount ) ).thenReturn( "successfulTransaction" );
@@ -241,16 +203,7 @@ public class TransferControllerTest
     void errorSendingMoneyToConnectionMissingConnection( ) throws Exception
     {
         // Arrange
-        Principal principal = ( ) -> "user"; // Mock Principal object
-        User connectedUser = new User( );
-        Account account = new Account( );
-        connectedUser.setAccount( account );
-        connectedUser.setEmail( "user" );
-        when( userService.findByEmail( "user" ) ).thenReturn( connectedUser );
-
         User connectionUser = new User( );
-        Account connectionAccount = new Account( );
-        connectionUser.setAccount( connectionAccount );
         connectionUser.setEmail( "connectionUser" );
         when( userService.findByEmail( "connectionUser" ) ).thenReturn( null );
 
@@ -273,20 +226,13 @@ public class TransferControllerTest
     void errorSendingMoneyToConnectioTransactionError( ) throws Exception
     {
         // Arrange
-        Principal principal = ( ) -> "user"; // Mock Principal object
-        User connectedUser = new User( );
-        Account account = new Account( );
-        connectedUser.setAccount( account );
-        connectedUser.setEmail( "user" );
-        account.setAccountBalance( 50 );
-        when( userService.findByEmail( "user" ) ).thenReturn( connectedUser );
-
         User connectionUser = new User( );
         Account connectionAccount = new Account( );
         connectionUser.setAccount( connectionAccount );
         connectionUser.setEmail( "connectionUser" );
-        when( userService.findByEmail( "connectionUser" ) ).thenReturn( connectionUser );
+        setupMockForConnection( connectionUser );
 
+        connectedAccount.setAccountBalance( 50 );
         double transactionAmount = 200;
         when( transferService.sendMoneyToConnection( connectedUser, connectionUser, transactionAmount ) ).thenReturn( "transactionError" );
 

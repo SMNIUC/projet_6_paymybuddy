@@ -5,8 +5,6 @@ import com.openclassrooms.project.paymybuddy.service.AccountService;
 import com.openclassrooms.project.paymybuddy.service.TransferService;
 import com.openclassrooms.project.paymybuddy.service.UserService;
 import lombok.RequiredArgsConstructor;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;

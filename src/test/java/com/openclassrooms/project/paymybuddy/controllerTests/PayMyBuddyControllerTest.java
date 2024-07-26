@@ -19,7 +19,6 @@ import org.springframework.web.context.WebApplicationContext;
 
 import java.security.Principal;
 
-import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
@@ -43,12 +42,24 @@ public class PayMyBuddyControllerTest
     @InjectMocks
     private PayMyBuddyController payMyBuddyControllerUnderTest;
 
+    private Principal principal;
+    private User connectedUser;
+
     @BeforeEach
     public void setup( )
     {
         this.mockMvc = MockMvcBuilders.webAppContextSetup( this.context )
                 .apply( springSecurity( ) )
                 .build( );
+
+        principal = ( ) -> "user"; // Mock Principal object
+
+        connectedUser = new User( );
+        Account connectedAccount = new Account( );
+        connectedUser.setAccount( connectedAccount );
+        connectedUser.setEmail( "user" );
+
+        when( userService.findByEmail( "user" ) ).thenReturn( connectedUser );
     }
 
     @Test
@@ -56,7 +67,6 @@ public class PayMyBuddyControllerTest
     void doLogInSuccessful( ) throws Exception
     {
         // Arrange
-        Principal principal = ( ) -> "user"; // Mock Principal object
 
         // Act & Assert
         mockMvc.perform( get("/login" )
@@ -70,7 +80,6 @@ public class PayMyBuddyControllerTest
     void errorLogginIn( ) throws Exception
     {
         // Arrange
-        Principal principal = ( ) -> "user"; // Mock Principal object
 
         // Act & Assert
         mockMvc.perform( get("/login" )
@@ -84,13 +93,6 @@ public class PayMyBuddyControllerTest
     void doLoadPayMyBuddyHomepage( ) throws Exception
     {
         // Arrange
-        Principal principal = ( ) -> "user"; // Mock Principal object
-        User connectedUser = new User( );
-        Account account = new Account( );
-        connectedUser.setAccount( account );
-        connectedUser.setEmail( "user" );
-
-        when( userService.findByEmail( anyString( ) ) ).thenReturn( connectedUser );
 
         // Act & Assert
         mockMvc.perform( get("/home" )
@@ -106,13 +108,7 @@ public class PayMyBuddyControllerTest
     void doCreateNewAccountSuccessful( ) throws Exception
     {
         // Arrange
-        Principal principal = ( ) -> "user"; // Mock Principal object
-        User connectedUser = new User( );
-        Account account = new Account( );
-        connectedUser.setAccount( account );
-        connectedUser.setEmail( "user" );
         connectedUser.setPassword( "password" );
-
         when( userService.registerNewUser( connectedUser.getEmail( ), connectedUser.getPassword( ) ) ).thenReturn( "successfulRegistration" );
 
         // Act & Assert
@@ -131,13 +127,7 @@ public class PayMyBuddyControllerTest
     void errorCreatingNewAccountExistingEmail( ) throws Exception
     {
         // Arrange
-        Principal principal = ( ) -> "user"; // Mock Principal object
-        User connectedUser = new User( );
-        Account account = new Account( );
-        connectedUser.setAccount( account );
-        connectedUser.setEmail( "user" );
         connectedUser.setPassword( "password" );
-
         when( userService.registerNewUser( connectedUser.getEmail( ), connectedUser.getPassword( ) ) ).thenReturn( "existingEmail" );
 
         // Act & Assert

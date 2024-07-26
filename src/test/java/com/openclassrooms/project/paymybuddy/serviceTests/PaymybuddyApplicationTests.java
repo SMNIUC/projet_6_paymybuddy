@@ -15,7 +15,7 @@ class PaymybuddyApplicationTests {
 
     // Tests that the Application is starting and that the context does indeed create my controller
     @Test
-    void contextLoads( ) throws Exception
+    void contextLoads( )
     {
         assertThat( controller ).isNotNull( );
     }

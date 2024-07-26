@@ -22,7 +22,6 @@ import org.springframework.web.context.WebApplicationContext;
 import java.security.Principal;
 import java.util.ArrayList;
 
-import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
@@ -52,12 +51,25 @@ public class AccountControllerTest
     @InjectMocks
     private AccountController accountControllerUnderTest;
 
+    private Principal principal;
+    private User connectedUser;
+
     @BeforeEach
     public void setup( )
     {
         this.mockMvc = MockMvcBuilders.webAppContextSetup( this.context )
                 .apply( springSecurity( ) )
                 .build( );
+
+        principal = ( ) -> "user"; // Mock Principal object
+
+        connectedUser = new User( );
+        Account connectedAccount = new Account( );
+        connectedUser.setAccount( connectedAccount );
+        connectedUser.setEmail( "user" );
+        connectedAccount.setIban( "US15JDIM25968475125699" );
+
+        when( userService.findByEmail( "user" ) ).thenReturn( connectedUser );
     }
 
     @Test
@@ -65,13 +77,6 @@ public class AccountControllerTest
     void doLoadProfilePageSuccessful( ) throws Exception
     {
         // Arrange
-        Principal principal = ( ) -> "user"; // Mock Principal object
-        User connectedUser = new User( );
-        Account account = new Account( );
-        connectedUser.setAccount( account );
-        connectedUser.setEmail( "user" );
-
-        when( userService.findByEmail( anyString( ) ) ).thenReturn( connectedUser );
         when( transferService.getConnectionsUserList( connectedUser ) ).thenReturn( new ArrayList<>( ) );
 
         // Act & Assert
@@ -90,14 +95,6 @@ public class AccountControllerTest
     void doTransferMoneyBetweenAccountsSuccessful( ) throws Exception
     {
         // Arrange
-        Principal principal = ( ) -> "user"; // Mock Principal object
-        User connectedUser = new User( );
-        Account account = new Account( );
-        connectedUser.setAccount( account );
-        connectedUser.setEmail( "user" );
-        account.setIban( "US15JDIM25968475125699" );
-        when( userService.findByEmail( anyString( ) ) ).thenReturn( connectedUser );
-
         String bankTransferAction = "bankToAccount";
         double bankTransferAmount = 200;
         when( accountService.doTransferBankToAccount( connectedUser, bankTransferAmount ) ).thenReturn( "successfulTransfer" );
@@ -118,14 +115,6 @@ public class AccountControllerTest
     void errorTransferringMoneyBankRefusal( ) throws Exception
     {
         // Arrange
-        Principal principal = ( ) -> "user"; // Mock Principal object
-        User connectedUser = new User( );
-        Account account = new Account( );
-        connectedUser.setAccount( account );
-        connectedUser.setEmail( "user" );
-        account.setIban( "US15JDIM25968475125699" );
-        when( userService.findByEmail( anyString( ) ) ).thenReturn( connectedUser );
-
         String bankTransferAction = "bankToAccount";
         double bankTransferAmount = 200;
         when( accountService.doTransferBankToAccount( connectedUser, bankTransferAmount ) ).thenReturn( "bankRefusal" );
@@ -146,14 +135,6 @@ public class AccountControllerTest
     void errorTransferringMoneyBalanceTooLow( ) throws Exception
     {
         // Arrange
-        Principal principal = ( ) -> "user"; // Mock Principal object
-        User connectedUser = new User( );
-        Account account = new Account( );
-        connectedUser.setAccount( account );
-        connectedUser.setEmail( "user" );
-        account.setIban( "US15JDIM25968475125699" );
-        when( userService.findByEmail( anyString( ) ) ).thenReturn( connectedUser );
-
         String bankTransferAction = "accountToBank";
         double bankTransferAmount = 200;
         when( accountService.doTransferAccountToBank( connectedUser, bankTransferAmount ) ).thenReturn( "balanceTooLow" );
@@ -174,13 +155,6 @@ public class AccountControllerTest
     void errorTransferringMoneyNoActionSelected( ) throws Exception
     {
         // Arrange
-        Principal principal = ( ) -> "user"; // Mock Principal object
-        User connectedUser = new User( );
-        Account account = new Account( );
-        connectedUser.setAccount( account );
-        connectedUser.setEmail( "user" );
-        account.setIban( "US15JDIM25968475125699" );
-        when( userService.findByEmail( anyString( ) ) ).thenReturn( connectedUser );
 
         // No action selected by the user
         String bankTransferAction = "null";
@@ -202,13 +176,7 @@ public class AccountControllerTest
     void errorTransferringMoneyIbanNull( ) throws Exception
     {
         // Arrange
-        Principal principal = ( ) -> "user"; // Mock Principal object
-        User connectedUser = new User( );
-        Account account = new Account( );
-        connectedUser.setAccount( account );
-        connectedUser.setEmail( "user" );
-        account.setIban( "" );
-        when( userService.findByEmail( anyString( ) ) ).thenReturn( connectedUser );
+        connectedUser.getAccount( ).setIban( "" );
 
         String bankTransferAction = "accountToBank";
         double bankTransferAmount = 200;
@@ -229,14 +197,6 @@ public class AccountControllerTest
     void doIbanRegistrationSuccessful( ) throws Exception
     {
         // Arrange
-        Principal principal = ( ) -> "user"; // Mock Principal object
-        User connectedUser = new User( );
-        Account account = new Account( );
-        connectedUser.setAccount( account );
-        connectedUser.setEmail( "user" );
-        account.setIban( "" );
-        when( userService.findByEmail( anyString( ) ) ).thenReturn( connectedUser );
-
         String addedIban = "US15JDIM25968475125699";
         when( accountService.registerUserIban( addedIban, connectedUser ) ).thenReturn( "ibanSuccess" );
 
@@ -255,14 +215,6 @@ public class AccountControllerTest
     void errorRegisteringIbanIbanIsNull( ) throws Exception
     {
         // Arrange
-        Principal principal = ( ) -> "user"; // Mock Principal object
-        User connectedUser = new User( );
-        Account account = new Account( );
-        connectedUser.setAccount( account );
-        connectedUser.setEmail( "user" );
-        account.setIban( "" );
-        when( userService.findByEmail( anyString( ) ) ).thenReturn( connectedUser );
-
         String addedIban = "US15JDIM25968475125699";
         when( accountService.registerUserIban( addedIban, connectedUser ) ).thenReturn( "nullIbanError" );
 
