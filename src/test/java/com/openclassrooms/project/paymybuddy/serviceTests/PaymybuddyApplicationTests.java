@@ -1,4 +1,4 @@
-package com.openclassrooms.project.paymybuddy;
+package com.openclassrooms.project.paymybuddy.serviceTests;
 
 import com.openclassrooms.project.paymybuddy.controllers.PayMyBuddyController;
 import org.junit.jupiter.api.Test;
@@ -15,9 +15,9 @@ class PaymybuddyApplicationTests {
 
     // Tests that the Application is starting and that the context does indeed create my controller
     @Test
-    void contextLoads() throws Exception
+    void contextLoads( ) throws Exception
     {
-        assertThat(controller).isNotNull();
+        assertThat( controller ).isNotNull( );
     }
 
 }

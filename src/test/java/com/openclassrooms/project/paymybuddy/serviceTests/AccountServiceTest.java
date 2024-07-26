@@ -1,4 +1,4 @@
-package com.openclassrooms.project.paymybuddy;
+package com.openclassrooms.project.paymybuddy.serviceTests;
 
 import com.openclassrooms.project.paymybuddy.model.Account;
 import com.openclassrooms.project.paymybuddy.model.User;
@@ -22,7 +22,7 @@ public class AccountServiceTest
     private AccountService accountServiceUnderTest;
 
     @Test
-    void doCreateNewAccount( )
+    void doCreateNewAccountSuccessful( )
     {
         // Given
 
@@ -33,32 +33,22 @@ public class AccountServiceTest
         assertThat( account ).isNotNull( );
     }
 
-    //TODO -> how to test @Transactional errors?
-//    @Test
-//    void errorCreatingNewAccount( )
-//    {
-//        // Given
-//
-//        // When
-//
-//        // Then
-//
-//    }
-
     @Test
-    void doRegisterUserIban( )
+    void doRegisterUserIbanSuccessful( )
     {
         // Given
+        String message = "ibanSuccess";
         String iban = "US12PDJT65841516847685";
         User user = new User( );
         Account account = new Account( );
         user.setAccount( account );
 
         // When
-        accountServiceUnderTest.registerUserIban( iban, user );
+        String successMessage = accountServiceUnderTest.registerUserIban( iban, user );
 
         // Then
         assertThat( user.getAccount( ).getIban( ) ).isEqualTo( iban );
+        assertThat( successMessage ).isEqualTo( message );
     }
 
     @Test
@@ -79,7 +69,7 @@ public class AccountServiceTest
     }
 
     @Test
-    void doTransferBankToAccount( )
+    void doTransferBankToAccountSuccessful( )
     {
         // Given
         User user = new User( );
@@ -118,7 +108,7 @@ public class AccountServiceTest
     }
 
     @Test
-    void doTransferAccountToBank( )
+    void doTransferAccountToBankSuccessful( )
     {
         // Given
         User user = new User( );
@@ -155,5 +145,4 @@ public class AccountServiceTest
         // Then
         assertThat( resultMessage ).isEqualTo( message );
     }
-
 }

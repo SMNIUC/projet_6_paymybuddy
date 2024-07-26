@@ -45,7 +45,8 @@ public class TransferController
         User addedUser = userService.findByEmail( email );
         String message = null;
 
-        if( addedUser != null ){
+        if( addedUser != null )
+        {
             message = transferService.addConnection( connectedUser, addedUser );
         }
         else

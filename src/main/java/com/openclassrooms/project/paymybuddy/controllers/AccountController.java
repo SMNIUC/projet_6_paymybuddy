@@ -23,8 +23,6 @@ import static com.openclassrooms.project.paymybuddy.utils.PayMyBuddyConstants.*;
 @RequiredArgsConstructor
 public class AccountController
 {
-    private static final Logger log = LogManager.getLogger( AccountController.class );
-
     private final AccountService accountService;
 
     private final UserService userService;
@@ -96,25 +94,16 @@ public class AccountController
     public String registerUserIban( @RequestParam String iban, Principal principal, Model model )
     {
         User connectedUser = userService.findByEmail( principal.getName( ) );
-        String message = null;
 
-        try
-        {
-            message = accountService.registerUserIban( iban, connectedUser );
-        }
-        catch ( Exception e )
-        {
-            log.error( e.getMessage(), e );
-            model.addAttribute( IBAN_ERROR, IBAN_ERROR );
-        }
+        String message = accountService.registerUserIban( iban, connectedUser );
 
-        if( Objects.equals( message, NULL_IBAN_ERROR ) )
-        {
-            model.addAttribute( NULL_IBAN_ERROR, NULL_IBAN_ERROR );
-        }
-        else
+        if( Objects.equals( message, IBAN_SUCCESS ) )
         {
             model.addAttribute( IBAN_SUCCESS, IBAN_SUCCESS );
+        }
+        else if ( Objects.equals( message, NULL_IBAN_ERROR ) )
+        {
+            model.addAttribute( NULL_IBAN_ERROR, NULL_IBAN_ERROR );
         }
 
         return loadProfilePage( principal, model );

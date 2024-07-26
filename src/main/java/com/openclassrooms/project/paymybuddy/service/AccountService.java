@@ -32,13 +32,14 @@ public class AccountService
     @Transactional
     public String registerUserIban( String iban, User connectedUser )
     {
-        String message = null;
+        String message;
 
         if( StringUtils.hasLength( iban ) )
         {
             Account userAccount = connectedUser.getAccount( );
             userAccount.setIban( iban );
             accountRepository.save( userAccount );
+            message = IBAN_SUCCESS;
         }
         else
         {
@@ -54,7 +55,7 @@ public class AccountService
         Account userAccount = connectedUser.getAccount( );
         double userAccountBalance = userAccount.getAccountBalance( );
         double userBankBalance = userAccount.getBankBalance( );
-        String message = null;
+        String message;
 
         if( userBankBalance >= transferAmount )
         {

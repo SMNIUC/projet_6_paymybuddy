@@ -59,12 +59,7 @@
                             <input type="email" class="form-control" id="userEmail" aria-describedby="emailHelp" value="${connectedUser.email}">
                             <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
                         </div>
-                        <div class="mb-3">
-                            <label for="userPassword" class="form-label">Password</label>
-                            <input type="password" class="form-control" id="userPassword">
-                            <div id="emailHelp" class="form-text">Update your password here.</div>
-                        </div>
-                        <button type="submit" class="btn btn-primary">Submit</button>
+                        <button type="submit" class="btn btn-primary">Update your email</button>
                     </form>
                 </div>
             </div>

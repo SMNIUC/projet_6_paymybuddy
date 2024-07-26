@@ -58,5 +58,4 @@ public class PayMyBuddyController
 
         return logIn( false, model );
     }
-
 }

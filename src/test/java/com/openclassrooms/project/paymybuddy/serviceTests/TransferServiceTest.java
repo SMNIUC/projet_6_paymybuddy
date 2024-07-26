@@ -1,4 +1,4 @@
-package com.openclassrooms.project.paymybuddy;
+package com.openclassrooms.project.paymybuddy.serviceTests;
 
 import com.openclassrooms.project.paymybuddy.model.Account;
 import com.openclassrooms.project.paymybuddy.model.Connection;
@@ -13,6 +13,8 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.when;
@@ -36,7 +38,7 @@ public class TransferServiceTest
     private TransferService transferServiceUnderTest;
 
     @Test
-    void doAddConnection( )
+    void doAddConnectionSuccessful( )
     {
         // Given
         User connnectedUser = new User( );
@@ -73,10 +75,11 @@ public class TransferServiceTest
         // Given
         User connnectedUser = new User( );
         User addedUser = new User( );
-        String message = "invalidUser";
+        String message = "existingUser";
         Connection connection = new Connection( );
         connection.setAddedUser( addedUser );
         connection.setConnectedUser( connnectedUser );
+        when( connectionRepository.getAllByConnectedUserOrAddedUser( connnectedUser, connnectedUser ) ).thenReturn( List.of( connection ) );
 
         // When
         String confirmationMessage = transferServiceUnderTest.addConnection( connnectedUser, addedUser );
@@ -85,41 +88,28 @@ public class TransferServiceTest
         assertThat( confirmationMessage ).isEqualTo( message );
     }
 
-    //TODO - Should I test?
-//    @Test
-//    void verifiesConnectionAlreadyExists( )
-//    {
-//        // Given
-//
-//        // When
-//
-//        // Then
-//    }
+    @Test
+    void getConnectionsUserListSuccessful( )
+    {
+        // Given
+        User connnectedUser = new User( );
+        User addedUser = new User( );
+        Connection connection = new Connection( );
+        connection.setAddedUser( addedUser );
+        connection.setConnectedUser( connnectedUser );
+        when( connectionRepository.getAllByConnectedUserOrAddedUser( connnectedUser, connnectedUser ) ).thenReturn( List.of( connection ) );
 
-    //TODO - Should I test?
-//    @Test
-//    void verifiesConnectionDoesNotAlreadyExist( )
-//    {
-//        // Given
-//
-//        // When
-//
-//        // Then
-//    }
+        // When
+        List<User> connectionsUserList = transferServiceUnderTest.getConnectionsUserList( connnectedUser );
 
-    //TODO - Should I test? Same for getTransferList n saveNewTransfer?
-//    @Test
-//    void doesGetConnectionsUserList( )
-//    {
-//        // Given
-//
-//        // When
-//
-//        // Then
-//    }
+        // Then
+        assertThat( connectionsUserList ).isNotNull( );
+        assertThat( connectionsUserList.size( ) ).isEqualTo( 1 );
+        assertThat( connectionsUserList.get( 0 ) ).isEqualTo( addedUser );
+    }
 
     @Test
-    void doesSendMoneyToConnection( )
+    void doSendMoneyToConnectionSuccessful( )
     {
         // Given
         User sender = new User( );
@@ -167,5 +157,4 @@ public class TransferServiceTest
         // Then
         assertThat( errorMessage ).isEqualTo( message );
     }
-
 }

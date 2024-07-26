@@ -55,7 +55,6 @@ public class TransferService
         return message;
     }
 
-
     private boolean connectionAlreadyExists( User connectedUser, User addedUser )
     {
         boolean connectionAlreadyExists = false;
@@ -74,7 +73,6 @@ public class TransferService
         }
         return connectionAlreadyExists;
     }
-
 
     public List<User> getConnectionsUserList( User connectedUser )
     {
@@ -96,7 +94,6 @@ public class TransferService
         return connectionsUserList;
     }
 
-
     public List<Transfer> getTransferList( User connectedUser )
     {
         return transferRepository.getAllByTransferRecipient( connectedUser );
@@ -114,7 +111,6 @@ public class TransferService
 
         transferRepository.save( newTransfer );
     }
-
 
     @Transactional
     public String sendMoneyToConnection( User sender, User recipient, double transactionAmount )

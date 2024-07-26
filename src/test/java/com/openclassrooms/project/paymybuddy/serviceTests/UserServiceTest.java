@@ -1,4 +1,4 @@
-package com.openclassrooms.project.paymybuddy;
+package com.openclassrooms.project.paymybuddy.serviceTests;
 
 import com.openclassrooms.project.paymybuddy.model.User;
 import com.openclassrooms.project.paymybuddy.repo.UserRepository;
@@ -31,7 +31,7 @@ public class UserServiceTest
      private UserService userServiceUnderTest;
 
      @Test
-     void doRegisterNewUser( )
+     void doRegisterNewUserSuccessful( )
      {
           // Given
           String email = "john.doe@gmail.com";
@@ -62,5 +62,4 @@ public class UserServiceTest
           // Then
           assertThat( newUserRegisteredMessage ).isEqualTo( message );
      }
-
 }
