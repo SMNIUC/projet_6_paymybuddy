@@ -21,8 +21,6 @@
                         <#if error?? >
                             <div class="alert alert-danger mt-5" role="alert" >Your credentials are incorrect.</div>
                         </#if>
-
-                        <!--TODO: ALLOWED?? -->
                         <#if existingEmail?? >
                             <div class="alert alert-danger mt-5" role="alert">This email is already used.</div>
                         </#if>

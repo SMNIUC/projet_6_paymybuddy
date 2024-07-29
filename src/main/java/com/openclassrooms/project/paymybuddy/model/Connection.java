@@ -9,7 +9,7 @@ import lombok.Data;
 public class Connection
 {
     @Id
-    @Column(name = "idconnection")
+    @Column(name = "connection_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int idConnection;
 

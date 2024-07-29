@@ -17,7 +17,6 @@ import java.util.List;
 
 import static com.openclassrooms.project.paymybuddy.utils.PayMyBuddyConstants.*;
 
-
 @Service
 @RequiredArgsConstructor
 public class TransferService
@@ -27,7 +26,15 @@ public class TransferService
     private final AccountRepository accountRepository;
     private final TransferRepository transferRepository;
 
-
+    /**
+     * Creates and saves in the database a new connection
+     * between the connected user and another user of the
+     * application
+     *
+     * @param connectedUser
+     * @param addedUser
+     * @return validation or error message
+     */
     @Transactional
     public String addConnection( User connectedUser, User addedUser )
     {
@@ -55,6 +62,14 @@ public class TransferService
         return message;
     }
 
+    /**
+     * Checks whether a connection already exists in the database
+     * between the connected user and another user
+     *
+     * @param connectedUser
+     * @param addedUser
+     * @return true if connection exists, false is not
+     */
     private boolean connectionAlreadyExists( User connectedUser, User addedUser )
     {
         boolean connectionAlreadyExists = false;
@@ -74,6 +89,12 @@ public class TransferService
         return connectionAlreadyExists;
     }
 
+    /**
+     * Gets the list of all the connections of the connected user
+     *
+     * @param connectedUser
+     * @return list of users
+     */
     public List<User> getConnectionsUserList( User connectedUser )
     {
         List<User> connectionsUserList = new ArrayList<>( );
@@ -94,11 +115,24 @@ public class TransferService
         return connectionsUserList;
     }
 
+    /**
+     * Gets the list of all transfers ever received by the connected user
+     *
+     * @param connectedUser
+     * @return list of transfers
+     */
     public List<Transfer> getTransferList( User connectedUser )
     {
         return transferRepository.getAllByTransferRecipient( connectedUser );
     }
 
+    /**
+     * Saves a new transfer between users in the database
+     *
+     * @param connectedUser
+     * @param connectionUser
+     * @param transactionAmount
+     */
     @Transactional
     protected void saveNewTransfer( User connectedUser, User connectionUser, double transactionAmount )
     {
@@ -112,6 +146,16 @@ public class TransferService
         transferRepository.save( newTransfer );
     }
 
+    /**
+     * Sends a specified amount from the connected user account
+     * to the account of another specified user.
+     * The 0.5% transaction fee is at the charge of the sender
+     *
+     * @param sender
+     * @param recipient
+     * @param transactionAmount
+     * @return validation or error message
+     */
     @Transactional
     public String sendMoneyToConnection( User sender, User recipient, double transactionAmount )
     {

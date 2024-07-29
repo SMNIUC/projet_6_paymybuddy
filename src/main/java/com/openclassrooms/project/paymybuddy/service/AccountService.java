@@ -18,6 +18,11 @@ public class AccountService
 {
     private final AccountRepository accountRepository;
 
+    /**
+     * Creates and saves a new account object in the database
+     *
+     * @return Account object
+     */
     @Transactional
     public Account createNewAccount( )
     {
@@ -29,6 +34,13 @@ public class AccountService
         return newAccount;
     }
 
+    /**
+     * Saves the user's iban in the database
+     *
+     * @param iban
+     * @param connectedUser
+     * @return validation/error message
+     */
     @Transactional
     public String registerUserIban( String iban, User connectedUser )
     {
@@ -49,6 +61,15 @@ public class AccountService
         return message;
     }
 
+    /**
+     * Simulates banking transfers
+     * Transfers a specified amount from the connected user's
+     * bank account to their paymybuddy account
+     *
+     * @param connectedUser
+     * @param transferAmount
+     * @return validation/error message
+     */
     @Transactional
     public String doTransferBankToAccount( User connectedUser, double transferAmount )
     {
@@ -75,7 +96,15 @@ public class AccountService
         return message;
     }
 
-    // Method to simulate call to bank
+    /**
+     * Simulates banking transfers
+     * Transfers a specified amount from the connected user's
+     * paymybuddy account to their bank account
+     *
+     * @param connectedUser
+     * @param transferAmount
+     * @return validation/error message
+     */
     @Transactional
     public String doTransferAccountToBank( User connectedUser, double transferAmount )
     {
@@ -101,5 +130,4 @@ public class AccountService
         }
         return message;
     }
-
 }

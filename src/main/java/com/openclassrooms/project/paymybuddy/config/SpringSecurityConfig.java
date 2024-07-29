@@ -18,8 +18,6 @@ import org.springframework.security.web.authentication.rememberme.PersistentToke
 @EnableWebSecurity
 public class SpringSecurityConfig
 {
-    // FilterChain for the AUTHN portion
-    // Used to match the different credentials going thru the filterChain
     @Bean
     public UserDetailsService userDetailsService( UserRepository userRepository ) {
         return new UserDetailsService( userRepository );

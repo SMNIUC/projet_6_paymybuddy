@@ -2,14 +2,11 @@ package com.openclassrooms.project.paymybuddy.service;
 
 import com.openclassrooms.project.paymybuddy.model.Account;
 import com.openclassrooms.project.paymybuddy.model.User;
-import com.openclassrooms.project.paymybuddy.repo.ConnectionRepository;
 import com.openclassrooms.project.paymybuddy.repo.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
 
 import static com.openclassrooms.project.paymybuddy.utils.PayMyBuddyConstants.*;
 
@@ -21,11 +18,24 @@ public class UserService
     private final AccountService accountService;
     private final BCryptPasswordEncoder passwordEncoder;
 
+    /**
+     * Finds a user object in the database by their email address
+     *
+     * @param email
+     * @return User object
+     */
     public User findByEmail( String email )
     {
         return userRepository.findByEmail( email );
     }
 
+    /**
+     * Registers a new user object in the database
+     *
+     * @param email
+     * @param password
+     * @return validation/error message
+     */
     @Transactional
     public String registerNewUser( String email, String password )
     {

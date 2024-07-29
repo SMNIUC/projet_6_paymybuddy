@@ -14,6 +14,13 @@ public class UserDetailsService implements org.springframework.security.core.use
 {
     private final UserRepository userRepository;
 
+    /**
+     * Gets a UserDetails object by its email
+     *
+     * @param email
+     * @return UserDetails object
+     * @throws BadCredentialsException
+     */
     @Override
     public UserDetails loadUserByUsername( String email ) throws BadCredentialsException
     {

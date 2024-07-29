@@ -11,6 +11,4 @@ import java.util.List;
 public interface ConnectionRepository extends CrudRepository<Connection, Integer>
 {
     List<Connection> getAllByConnectedUserOrAddedUser( User connectedUser, User addedUser );
-
-    List<Connection> getAllAddedUserByConnectedUser( User connectedUser );
 }
