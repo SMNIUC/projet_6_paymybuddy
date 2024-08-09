@@ -12,9 +12,11 @@ mary.darling@yopmail.com - MotDePasse!54968
 ----------------------------------------------------------------------------------------------------
 **Diagramme de classe UML:** 
 
-![image](https://github.com/user-attachments/assets/1fd8fa6b-d7d1-4055-9689-fee19bd863d9)
+![image](https://github.com/user-attachments/assets/a473d52b-9f4d-4d57-bd0a-bb8d590f2f54)
+
 
 ----------------------------------------------------------------------------------------------------
 **Modèle physique de données:** 
 
-![image](https://github.com/user-attachments/assets/2a855408-f167-491e-92e4-c399db4da5d6)
+![image](https://github.com/user-attachments/assets/da6500a1-7acf-4971-b6bb-f6e7ddc045de)
+
