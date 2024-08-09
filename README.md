@@ -1,4 +1,4 @@
-Les instructions SQL se trouvent dans le fichier src/sql/create_db_paymybuddy.sql
+Les instructions SQL se trouvent dans le fichier src/sql/create_database_paymybuddy.sql
 
 ----------------------------------------------------------------------------------------------------
 
